@@ -20,6 +20,14 @@
 </template>
 
 <script>
+/* 图片预加载 */
+var headSculpture = new Image()
+headSculpture.src = '../assets/img/avatar.jpg'
+headSculpture.addEventListener('load',function(){
+  // var avatar = querySelector('.avatar').appendChild(headSculpture)
+  console.log('加载完成')
+})
+
 // 导入登录请求接口
 import {checkUser} from '@/api'
 
@@ -51,12 +59,16 @@ export default {
           // console.log('校验通过');
           checkUser(this.form).then(res => {
             console.log(res)
-            // 1.接收到数据判断请求是否正确响应.
+           
+           // 1.接收到数据判断请求是否正确响应.
             if(res.meta.status == 200){
               // 2.若正确，将服务端发送过来的token保存到localStorage中
               localStorage.setItem('mytoken',res.data.token)
               
-              // 3.并且跳转到登录页
+              // 3.将username保存到vuex中的state中
+              this.$store.commit('setUserName',res.data.username)
+
+              // 4.并且跳转到登录页
               this.$router.push({name: 'Home'})
              
              // 若接收到数据判断请求是否正确响应，若不正确，提示错误信息
@@ -76,7 +88,8 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
+
+<style lang="scss">
 .login {
   position: fixed;
   width: 100%;
@@ -107,6 +120,10 @@ export default {
     .el-input--prefix {
       .el-input__inner {
         padding-left: 25px;
+      }
+      .el-input__prefix {
+        vertical-align: baseline;
+        line-height: 42px;
       }
     }
     .login-btn {

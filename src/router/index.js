@@ -8,6 +8,9 @@ import Login from '@/views/Login'
 // 引入首页组件
 import Home from '@/views/Home'
 
+// 引入欢迎登录组件
+import Welcome from '@/views/welcome/Welcome'
+
 Vue.use(Router)
 
 export default new Router({
@@ -20,7 +23,15 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: Home
+      component: Home,
+      redirect: 'welcome',
+      children: [
+        {
+          name: 'Welcome',
+          path: 'welcome',
+          component: Welcome
+        }
+      ]
     }
   ]
 })
