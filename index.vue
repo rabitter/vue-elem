@@ -1,3 +1,3 @@
 <template>
-<div>first git pull,ahaha</div>
+  <div>first git pull</div>
 </template>
